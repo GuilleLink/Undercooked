@@ -33,6 +33,7 @@ public class Chopper : MonoBehaviour
                 player.lightsaber.currentState.activateSaber();
             }
         }
+        open.Play();
         cut.Play();
         return isChopping;
     }
@@ -43,7 +44,7 @@ public class Chopper : MonoBehaviour
         player.lightsaber.currentState.deactivateSaber();
         player.StopChopping();
         cut.Pause();
-        close.Play();
+        
     }
 
     // Update is called once per frame
@@ -56,6 +57,7 @@ public class Chopper : MonoBehaviour
             if (currentFood.GetStatus() != FoodStatus.RAW)
             {
                 StopChopping();
+                close.Play();
             }
         }
     }

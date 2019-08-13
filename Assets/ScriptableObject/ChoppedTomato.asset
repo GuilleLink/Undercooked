@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a18781db3540c894ea0d6cef928b2eca, type: 3}
+  m_Name: ChoppedTomato
+  m_EditorClassIdentifier: 
+  foodType: 0
+  foodStatus: 1
+  icon: {fileID: 21300000, guid: fd7ad6cfcfb7abd47a69a77d1eaf0d8d, type: 3}
+  soupMaterial: {fileID: 2100000, guid: aca341c7ba63e6341a43d49bab67f1df, type: 2}

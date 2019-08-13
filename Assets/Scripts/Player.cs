@@ -64,48 +64,87 @@ public class Player : MonoBehaviour
             {
                 Holder currentFurnitureHolder = currentFurniture.GetComponent<Holder>();
                 //Give
-                if (PlayerHolder.HasMovable())
+                if (currentFurnitureHolder != null)
                 {
-                    //Si ambos tienen objeto no lo cambia, se queda igual
-                    if (PlayerHolder.HasMovable() && currentFurnitureHolder.HasMovable())
+                    //Si el jugador tiene un objeto
+                    if (PlayerHolder.HasMovable())
                     {
-                        MovableObject furnitureMovable = currentFurnitureHolder.GetMovable();
-                        MovableObject playerMovable = PlayerHolder.GetMovable();
-
-                        PlayerHolder.SetMovable(playerMovable);
-                        currentFurnitureHolder.SetMovable(furnitureMovable);
-                    }
-                    //Si solo uno tiene objeto
-                    else{
-                        MovableObject movable = PlayerHolder.GetMovable();
-                        Trash trash = currentFurniture.GetComponent<Trash>();
-                        if (trash != null)
-                        {
-                            PlayerHolder.RemoveMovable();
-                            Destroy(movable.gameObject);
-                            /*Food food = movable.GetComponent<Food>();
-                            if (food!= null)
-                            {
-                                food.Delete();
-                            }*/
-                        }
-                        else
+                        //Si ambos tienen objeto no lo cambia, se queda igual
+                        if (PlayerHolder.HasMovable() && currentFurnitureHolder.HasMovable())
                         {
                             MovableObject furnitureMovable = currentFurnitureHolder.GetMovable();
-                            if (furnitureMovable != null)
-                            {
-                                Pot olla = currentFurnitureHolder.GetComponent<Pot>();
-                                Food food = movable.GetComponent<Food>();
-                                if (olla != null && food.GetStatus() == FoodStatus.CUT)
-                                {
-                                    PlayerHolder.RemoveMovable();
-                                }
-                            }
+                            MovableObject playerMovable = PlayerHolder.GetMovable();
+
+                            PlayerHolder.SetMovable(playerMovable);
+                            currentFurnitureHolder.SetMovable(furnitureMovable);
                         }
-                        currentFurnitureHolder.SetMovable(movable);
-                        PlayerHolder.RemoveMovable();
-                    }                    
-                }
+                        //Si solo uno tiene objeto
+                        else{
+                            MovableObject movable = PlayerHolder.GetMovable();
+                            Trash trash = currentFurniture.GetComponent<Trash>();
+                            Cooker cooker = currentFurniture.GetComponent<Cooker>();
+                            Chopper chopper = currentFurniture.GetComponent<Chopper>();
+                            //Si el mueble es el basurero
+                            if (trash != null && movable.GetComponent<Food>())
+                            {
+                                PlayerHolder.RemoveMovable();
+                                Destroy(movable.gameObject);
+                                /*Food food = movable.GetComponent<Food>();
+                                if (food!= null)
+                                {
+                                    food.Delete();
+                                }*/
+                            }
+                            //Solo acepta basura en el basurero
+                            if (trash != null && movable.GetComponent<Food>() == false)
+                            {
+                                MovableObject furnitureMovable = currentFurnitureHolder.GetMovable();
+                                MovableObject playerMovable = PlayerHolder.GetMovable();
+
+                                PlayerHolder.SetMovable(playerMovable);
+                                currentFurnitureHolder.SetMovable(furnitureMovable);
+                            }
+                            //Solo acepta la olla en los hornos
+                            if (cooker != null && movable.GetComponent<Container>() == false)
+                            {
+                                MovableObject furnitureMovable = currentFurnitureHolder.GetMovable();
+                                MovableObject playerMovable = PlayerHolder.GetMovable();
+
+                                PlayerHolder.SetMovable(playerMovable);
+                                currentFurnitureHolder.SetMovable(furnitureMovable);
+                            }
+                            if (chopper != null && movable.GetComponent<Food>() == false)
+                            {
+                                MovableObject furnitureMovable = currentFurnitureHolder.GetMovable();
+                                MovableObject playerMovable = PlayerHolder.GetMovable();
+
+                                PlayerHolder.SetMovable(playerMovable);
+                                currentFurnitureHolder.SetMovable(furnitureMovable);
+                            }
+                            //Si tiene el objeto y lo que tiene en frente tiene la olla
+                            else
+                            {
+                                MovableObject furnitureMovable = currentFurnitureHolder.GetMovable();
+                                if (furnitureMovable != null)
+                                {
+                                    Container furnitureContainer = furnitureMovable.GetComponent<Container>();
+                                    if (furnitureContainer != null)
+                                    {
+                                        Food food = movable.GetComponent<Food>();
+                                        if (food != null)
+                                        {
+                                            if (furnitureContainer.CanAccept(food))
+                                            {
+                                                PlayerHolder.RemoveMovable();
+                                            }
+                                        }
+                                    }
+                                }
+                                currentFurnitureHolder.SetMovable(movable);
+                                PlayerHolder.RemoveMovable();
+                            }
+                        }                    
+                    }
                 //Pick
                 else
                 {
@@ -124,8 +163,8 @@ public class Player : MonoBehaviour
                             PlayerHolder.SetMovable(movable);
                         }
                     }
-                } 
-                    
+                }    
+                }
             }
         }
 
